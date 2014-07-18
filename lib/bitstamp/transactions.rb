@@ -7,11 +7,18 @@ module Bitstamp
       Bitstamp::Helper.parse_objects! Bitstamp::Net::post("/user_transactions", options).body_str, self.model
     end
 
-    def find(order_id)
-      all = self.all
-      index = all.index {|order| order.id.to_i == order_id}
+    def find(transaction_id)
+      all   = self.all
+      index = all.index { |order| order.id.to_i == transaction_id }
 
-      return all[index] if index
+      all[index] if index
+    end
+
+    def find_by_order_id(order_id)
+      all   = self.all
+      index = all.index { |order| order.order_id.to_i == order_id }
+
+      all[index] if index
     end
 
     def create(options = {})
